@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 25.2.3.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115%; background: transparent }
+		pre { font-size: 10pt; font-family: "Liberation Mono", monospace; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;✨ wafi.thumbnails - AI-Powered Thumbnail Generator&lt;/title&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;style&gt;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary: #ec4899;
+            --background: #fafafa;
+            --surface: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .input, .textarea, .select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: var(--surface);
+        }
+
+        .input:focus, .textarea:focus, .select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--background);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .file-input-button:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .file-input-wrapper input[type=&quot;file&quot;] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .helper-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        /* Grid Layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            padding: 16px;
+            font-size: 1.125rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--background);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface);
+            border-color: var(--primary);
+        }
+
+        /* Result Area */
+        .result-container {
+            text-align: center;
+            padding: 40px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-empty {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .result-image {
+            max-width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* API Key Section */
+        .api-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+            border: 2px solid var(--border);
+        }
+
+        .security-note {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--success);
+            margin-top: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                margin-bottom: 40px;
+                padding: 20px 0;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .button-group .btn {
+                width: 100%;
+            }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!--
+    ╔═══════════════════════════════════════════════════════════════════════════════╗
+    ║                          WAFI.THUMBNAILS - SETUP GUIDE                        ║
+    ╚═══════════════════════════════════════════════════════════════════════════════╝
+    
+    HOW TO USE THIS FILE:
+    ---------------------
+    1. This is a single-file HTML application - everything is included!
+    2. You can open it directly in a browser or host it on GitHub Pages.
+    
+    WHERE TO ADD YOUR API KEY &amp; ENDPOINT:
+    -------------------------------------
+    1. Scroll down to the JavaScript section (search for &quot;API CONFIGURATION&quot;)
+    2. Find the function `callAiImageApi()`
+    3. Replace the placeholder API endpoint with your actual endpoint
+    4. The API key entered in the UI is stored in localStorage and accessed via:
+       const apiKey = localStorage.getItem('wafi_api_key');
+    
+    EXAMPLE API INTEGRATION:
+    ------------------------
+    Currently set up for Amazon Bedrock Nova 2 Lite, but you can easily adapt for:
+    - OpenAI DALL-E: https://api.openai.com/v1/images/generations
+    - Stability AI: https://api.stability.ai/v1/generation/...
+    - Replicate: https://api.replicate.com/v1/predictions
+    - Any other image generation API
+    
+    HOW TO DEPLOY ON GITHUB PAGES:
+    -------------------------------
+    1. Create a new repository on GitHub
+    2. Upload this HTML file (name it index.html)
+    3. Go to repository Settings &gt; Pages
+    4. Select &quot;main&quot; branch and &quot;/&quot; (root) folder
+    5. Click Save - your site will be live at: https://yourusername.github.io/repo-name/
+    
+    SECURITY NOTE:
+    --------------
+    - API keys are stored in browser localStorage (client-side only)
+    - Never commit real API keys to public repositories
+    - Consider using backend proxy for production apps
+    
+    ╔═══════════════════════════════════════════════════════════════════════════════╗
+    --&gt;
+
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;!-- Header --&gt;
+        &lt;header class=&quot;header&quot;&gt;
+            &lt;h1 class=&quot;logo&quot;&gt;✨ wafi.thumbnails&lt;/h1&gt;
+            &lt;p class=&quot;subtitle&quot;&gt;AI-powered thumbnails for creators&lt;/p&gt;
+        &lt;/header&gt;
+
+        &lt;!-- API Key Section (Owner Only) --&gt;
+        &lt;div class=&quot;card api-section&quot;&gt;
+            &lt;div class=&quot;card-header&quot;&gt;
+                🔑 API Configuration
+            &lt;/div&gt;
+            &lt;p class=&quot;card-subtitle&quot;&gt;⚠️ Owner only - Configure your AI image generation API&lt;/p&gt;
+            
+            &lt;div class=&quot;form-group&quot;&gt;
+                &lt;label class=&quot;label&quot; for=&quot;apiKey&quot;&gt;API Key&lt;/label&gt;
+                &lt;input 
+                    type=&quot;password&quot; 
+                    id=&quot;apiKey&quot; 
+                    class=&quot;input&quot; 
+                    placeholder=&quot;Enter your API key (e.g., OpenAI, Stability AI, etc.)&quot;
+                &gt;
+                &lt;div class=&quot;security-note&quot;&gt;
+                    🔒 Your API key is stored only in your browser (localStorage) and never sent to our servers.
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Main Generator Form --&gt;
+        &lt;div class=&quot;card&quot;&gt;
+            &lt;div class=&quot;card-header&quot;&gt;
+                🎨 Create Your Thumbnail
+            &lt;/div&gt;
+
+            &lt;form id=&quot;thumbnailForm&quot;&gt;
+                &lt;!-- Image Upload --&gt;
+                &lt;div class=&quot;form-group&quot;&gt;
+                    &lt;label class=&quot;label&quot; for=&quot;baseImage&quot;&gt;📸 Base Image (Optional)&lt;/label&gt;
+                    &lt;div class=&quot;file-input-wrapper&quot;&gt;
+                        &lt;label class=&quot;file-input-button&quot; for=&quot;baseImage&quot;&gt;
+                            &lt;span&gt;📁&lt;/span&gt;
+                            &lt;span&gt;Choose an image or drag &amp; drop&lt;/span&gt;
+                        &lt;/label&gt;
+                        &lt;input type=&quot;file&quot; id=&quot;baseImage&quot; accept=&quot;image/*&quot;&gt;
+                    &lt;/div&gt;
+                    &lt;div id=&quot;fileName&quot; class=&quot;file-name&quot;&gt;&lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;!-- Prompt --&gt;
+                &lt;div class=&quot;form-group&quot;&gt;
+                    &lt;label class=&quot;label&quot; for=&quot;prompt&quot;&gt;💭 Describe Your Thumbnail&lt;/label&gt;
+                    &lt;textarea 
+                        id=&quot;prompt&quot; 
+                        class=&quot;textarea&quot; 
+                        placeholder=&quot;Example: A vibrant gaming thumbnail with neon colors, featuring a controller and exciting text overlay...&quot;
+                        required
+                    &gt;&lt;/textarea&gt;
+                    &lt;p class=&quot;helper-text&quot;&gt;Be specific! Mention colors, mood, elements, and style.&lt;/p&gt;
+                &lt;/div&gt;
+
+                &lt;!-- Options Grid --&gt;
+                &lt;div class=&quot;form-grid&quot;&gt;
+                    &lt;div class=&quot;form-group&quot;&gt;
+                        &lt;label class=&quot;label&quot; for=&quot;designStyle&quot;&gt;🎨 Design Style&lt;/label&gt;
+                        &lt;select id=&quot;designStyle&quot; class=&quot;select&quot;&gt;
+                            &lt;option value=&quot;modern&quot;&gt;Modern&lt;/option&gt;
+                            &lt;option value=&quot;minimalist&quot;&gt;Minimalist&lt;/option&gt;
+                            &lt;option value=&quot;bold&quot;&gt;Bold&lt;/option&gt;
+                            &lt;option value=&quot;cinematic&quot;&gt;Cinematic&lt;/option&gt;
+                            &lt;option value=&quot;cartoon&quot;&gt;Cartoon&lt;/option&gt;
+                        &lt;/select&gt;
+                    &lt;/div&gt;
+
+                    &lt;div class=&quot;form-group&quot;&gt;
+                        &lt;label class=&quot;label&quot; for=&quot;emotion&quot;&gt;😊 Emotion/Mood&lt;/label&gt;
+                        &lt;select id=&quot;emotion&quot; class=&quot;select&quot;&gt;
+                            &lt;option value=&quot;happy&quot;&gt;Happy&lt;/option&gt;
+                            &lt;option value=&quot;dramatic&quot;&gt;Dramatic&lt;/option&gt;
+                            &lt;option value=&quot;mysterious&quot;&gt;Mysterious&lt;/option&gt;
+                            &lt;option value=&quot;urgent&quot;&gt;Urgent&lt;/option&gt;
+                            &lt;option value=&quot;calm&quot;&gt;Calm&lt;/option&gt;
+                        &lt;/select&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;form-grid&quot;&gt;
+                    &lt;div class=&quot;form-group&quot;&gt;
+                        &lt;label class=&quot;label&quot; for=&quot;theme&quot;&gt;🎯 Theme/Elements&lt;/label&gt;
+                        &lt;select id=&quot;theme&quot; class=&quot;select&quot;&gt;
+                            &lt;option value=&quot;youtube&quot;&gt;YouTube&lt;/option&gt;
+                            &lt;option value=&quot;gaming&quot;&gt;Gaming&lt;/option&gt;
+                            &lt;option value=&quot;tech&quot;&gt;Tech&lt;/option&gt;
+                            &lt;option value=&quot;business&quot;&gt;Business&lt;/option&gt;
+                            &lt;option value=&quot;education&quot;&gt;Education&lt;/option&gt;
+                            &lt;option value=&quot;custom&quot;&gt;Custom&lt;/option&gt;
+                        &lt;/select&gt;
+                    &lt;/div&gt;
+
+                    &lt;div class=&quot;form-group&quot;&gt;
+                        &lt;label class=&quot;label&quot; for=&quot;aspectRatio&quot;&gt;📐 Aspect Ratio&lt;/label&gt;
+                        &lt;select id=&quot;aspectRatio&quot; class=&quot;select&quot;&gt;
+                            &lt;option value=&quot;16:9&quot;&gt;16:9 (YouTube)&lt;/option&gt;
+                            &lt;option value=&quot;9:16&quot;&gt;9:16 (Shorts/TikTok)&lt;/option&gt;
+                            &lt;option value=&quot;1:1&quot;&gt;1:1 (Square)&lt;/option&gt;
+                            &lt;option value=&quot;4:5&quot;&gt;4:5 (Instagram)&lt;/option&gt;
+                        &lt;/select&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;!-- Generate Button --&gt;
+                &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot; id=&quot;generateBtn&quot;&gt;
+                    &lt;span&gt;✨&lt;/span&gt;
+                    &lt;span&gt;Generate Thumbnail&lt;/span&gt;
+                &lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Results Section --&gt;
+        &lt;div class=&quot;card&quot;&gt;
+            &lt;div class=&quot;card-header&quot;&gt;
+                🖼️ Your Thumbnail
+            &lt;/div&gt;
+
+            &lt;div id=&quot;resultContainer&quot; class=&quot;result-container&quot;&gt;
+                &lt;div id=&quot;emptyState&quot; class=&quot;result-empty&quot;&gt;
+                    Your generated thumbnail will appear here ✨
+                &lt;/div&gt;
+
+                &lt;div id=&quot;loadingState&quot; class=&quot;loading hidden&quot;&gt;
+                    &lt;div class=&quot;spinner&quot;&gt;&lt;/div&gt;
+                    &lt;p&gt;Creating your thumbnail...&lt;/p&gt;
+                &lt;/div&gt;
+
+                &lt;div id=&quot;resultState&quot; class=&quot;hidden&quot;&gt;
+                    &lt;img id=&quot;resultImage&quot; class=&quot;result-image&quot; alt=&quot;Generated thumbnail&quot;&gt;
+                    &lt;div class=&quot;button-group&quot;&gt;
+                        &lt;button class=&quot;btn btn-secondary&quot; id=&quot;downloadBtn&quot;&gt;
+                            &lt;span&gt;⬇️&lt;/span&gt;
+                            &lt;span&gt;Download&lt;/span&gt;
+                        &lt;/button&gt;
+                        &lt;button class=&quot;btn btn-secondary&quot; id=&quot;regenerateBtn&quot;&gt;
+                            &lt;span&gt;🔄&lt;/span&gt;
+                            &lt;span&gt;Regenerate&lt;/span&gt;
+                        &lt;/button&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        // ═════════════════════════════════════════════════════════════════════════
+        // API CONFIGURATION SECTION
+        // ═════════════════════════════════════════════════════════════════════════
+        // 
+        // THIS IS WHERE YOU CONFIGURE YOUR API ENDPOINT AND KEY
+        //
+        // Current setup: Amazon Bedrock Nova 2 Lite (placeholder)
+        // Replace with your actual API endpoint below
+        // ═════════════════════════════════════════════════════════════════════════
+
+        /**
+         * Main API call function - THIS IS WHERE YOU INTEGRATE YOUR API
+         * 
+         * @param {string} prompt - User's description
+         * @param {File|null} baseImage - Optional base image
+         * @param {object} options - Design options (style, emotion, theme, aspectRatio)
+         * @param {string} apiKey - API key from localStorage
+         * @returns {Promise&lt;string&gt;} - URL of generated image
+         */
+        async function callAiImageApi(prompt, baseImage, options, apiKey) {
+            // ─────────────────────────────────────────────────────────────────────
+            // REPLACE THIS SECTION WITH YOUR ACTUAL API CALL
+            // ─────────────────────────────────────────────────────────────────────
+            
+            // Check if API key exists
+            if (!apiKey || apiKey.trim() === '') {
+                throw new Error('Please enter your API key in the configuration section above.');
+            }
+
+            // Build enhanced prompt with user options
+            const enhancedPrompt = buildEnhancedPrompt(prompt, options);
+
+            // ─────────────────────────────────────────────────────────────────────
+            // EXAMPLE: OpenAI DALL-E Integration
+            // ─────────────────────────────────────────────────────────────────────
+            /*
+            const response = await fetch('https://api.openai.com/v1/images/generations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: &quot;dall-e-3&quot;,
+                    prompt: enhancedPrompt,
+                    n: 1,
+                    size: getImageSize(options.aspectRatio),
+                    quality: &quot;standard&quot;
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data.data[0].url;
+            */
+
+            // ─────────────────────────────────────────────────────────────────────
+            // EXAMPLE: Stability AI Integration
+            // ─────────────────────────────────────────────────────────────────────
+            /*
+            const formData = new FormData();
+            formData.append('text_prompts[0][text]', enhancedPrompt);
+            formData.append('cfg_scale', 7);
+            formData.append('samples', 1);
+            
+            const dimensions = getImageDimensions(options.aspectRatio);
+            formData.append('width', dimensions.width);
+            formData.append('height', dimensions.height);
+
+            const response = await fetch('https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            return `data:image/png;base64,${data.artifacts[0].base64}`;
+            */
+
+            // ─────────────────────────────────────────────────────────────────────
+            // TEMPORARY PLACEHOLDER - REMOVE THIS IN PRODUCTION
+            // ─────────────────────────────────────────────────────────────────────
+            // This simulates an API call for testing purposes
+            
+            console.log('API Call Parameters:', {
+                prompt: enhancedPrompt,
+                options,
+                apiKey: apiKey.substring(0, 10) + '...' // Log only first 10 chars for security
+            });
+
+            // Simulate API delay
+            await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+            // Return a placeholder image (replace with actual API response)
+            return 'https://via.placeholder.com/1280x720/6366f1/ffffff?text=Your+Generated+Thumbnail';
+        }
+
+        // ═════════════════════════════════════════════════════════════════════════
+        // HELPER FUNCTIONS
+        // ═════════════════════════════════════════════════════════════════════════
+
+        /**
+         * Builds an enhanced prompt with all user selections
+         */
+        function buildEnhancedPrompt(basePrompt, options) {
+            const parts = [basePrompt];
+            
+            parts.push(`Style: ${options.designStyle}`);
+            parts.push(`Mood: ${options.emotion}`);
+            parts.push(`Theme: ${options.theme}`);
+            parts.push(`Aspect ratio: ${options.aspectRatio}`);
+            parts.push('High quality, professional thumbnail design');
+            
+            return parts.join('. ');
+        }
+
+        /**
+         * Convert aspect ratio to image size string (for DALL-E)
+         */
+        function getImageSize(aspectRatio) {
+            const sizeMap = {
+                '16:9': '1792x1024',
+                '9:16': '1024x1792',
+                '1:1': '1024x1024',
+                '4:5': '1024x1280'
+            };
+            return sizeMap[aspectRatio] || '1024x1024';
+        }
+
+        /**
+         * Convert aspect ratio to dimensions object
+         */
+        function getImageDimensions(aspectRatio) {
+            const dimensionMap = {
+                '16:9': { width: 1280, height: 720 },
+                '9:16': { width: 720, height: 1280 },
+                '1:1': { width: 1024, height: 1024 },
+                '4:5': { width: 1024, height: 1280 }
+            };
+            return dimensionMap[aspectRatio] || { width: 1024, height: 1024 };
+        }
+
+        // ═════════════════════════════════════════════════════════════════════════
+        // UI STATE MANAGEMENT
+        // ═════════════════════════════════════════════════════════════════════════
+
+        const elements = {
+            apiKeyInput: document.getElementById('apiKey'),
+            form: document.getElementById('thumbnailForm'),
+            baseImageInput: document.getElementById('baseImage'),
+            fileNameDisplay: document.getElementById('fileName'),
+            promptInput: document.getElementById('prompt'),
+            designStyleSelect: document.getElementById('designStyle'),
+            emotionSelect: document.getElementById('emotion'),
+            themeSelect: document.getElementById('theme'),
+            aspectRatioSelect: document.getElementById('aspectRatio'),
+            generateBtn: document.getElementById('generateBtn'),
+            emptyState: document.getElementById('emptyState'),
+            loadingState: document.getElementById('loadingState'),
+            resultState: document.getElementById('resultState'),
+            resultImage: document.getElementById('resultImage'),
+            downloadBtn: document.getElementById('downloadBtn'),
+            regenerateBtn: document.getElementById('regenerateBtn')
+        };
+
+        let currentImageUrl = null;
+        let lastFormData = null;
+
+        // ═════════════════════════════════════════════════════════════════════════
+        // LOCAL STORAGE - API KEY MANAGEMENT
+        // ═════════════════════════════════════════════════════════════════════════
+
+        // Load API key from localStorage on page load
+        window.addEventListener('DOMContentLoaded', () =&gt; {
+            const savedApiKey = localStorage.getItem('wafi_api_key');
+            if (savedApiKey) {
+                elements.apiKeyInput.value = savedApiKey;
+            }
+        });
+
+        // Save API key to localStorage when changed
+        elements.apiKeyInput.addEventListener('change', (e) =&gt; {
+            const apiKey = e.target.value.trim();
+            if (apiKey) {
+                localStorage.setItem('wafi_api_key', apiKey);
+            } else {
+                localStorage.removeItem('wafi_api_key');
+            }
+        });
+
+        // ═════════════════════════════════════════════════════════════════════════
+        // FILE UPLOAD HANDLING
+        // ═════════════════════════════════════════════════════════════════════════
+
+        elements.baseImageInput.addEventListener('change', (e) =&gt; {
+            const file = e.target.files[0];
+            if (file) {
+                elements.fileNameDisplay.textContent = `Selected: ${file.name}`;
+            } else {
+                elements.fileNameDisplay.textContent = '';
+            }
+        });
+
+        // ═════════════════════════════════════════════════════════════════════════
+        // UI STATE TRANSITIONS
+        // ═════════════════════════════════════════════════════════════════════════
+
+        function showLoadingState() {
+            elements.emptyState.classList.add('hidden');
+            elements.resultState.classList.add('hidden');
+            elements.loadingState.classList.remove('hidden');
+            elements.generateBtn.disabled = true;
+        }
+
+        function showResultState(imageUrl) {
+            elements.emptyState.classList.add('hidden');
+            elements.loadingState.classList.add('hidden');
+            elements.resultState.classList.remove('hidden');
+            elements.resultImage.src = imageUrl;
+            elements.generateBtn.disabled = false;
+            currentImageUrl = imageUrl;
+        }
+
+        function showEmptyState() {
+            elements.emptyState.classList.remove('hidden');
+            elements.loadingState.classList.add('hidden');
+            elements.resultState.classList.add('hidden');
+            elements.generateBtn.disabled = false;
+        }
+
+        function showError(message) {
+            alert(`Error: ${message}`);
+            showEmptyState();
+        }
+
+        // ═════════════════════════════════════════════════════════════════════════
+        // FORM SUBMISSION &amp; GENERATION
+        // ═════════════════════════════════════════════════════════════════════════
+
+        elements.form.addEventListener('submit', async (e) =&gt; {
+            e.preventDefault();
+            await generateThumbnail();
+        });
+
+        async function generateThumbnail() {
+            try {
+                // Get API key from localStorage
+                const apiKey = localStorage.getItem('wafi_api_key');
+
+                // Collect form data
+                const formData = {
+                    prompt: elements.promptInput.value.trim(),
+                    baseImage: elements.baseImageInput.files[0] || null,
+                    options: {
+                        designStyle: elements.designStyleSelect.value,
+                        emotion: elements.emotionSelect.value,
+                        theme: elements.themeSelect.value,
+                        aspectRatio: elements.aspectRatioSelect.value
+                    }
+                };
+
+                // Store for regeneration
+                lastFormData = formData;
+
+                // Show loading state
+                showLoadingState();
+
+                // Call API
+                const imageUrl = await callAiImageApi(
+                    formData.prompt,
+                    formData.baseImage,
+                    formData.options,
+                    apiKey
+                );
+
+                // Show result
+                showResultState(imageUrl);
+
+            } catch (error) {
+                console.error('Generation error:', error);
+                showError(error.message || 'Failed to generate thumbnail. Please check your API key and try again.');
+            }
+        }
+
+        // ═════════════════════════════════════════════════════════════════════════
+        // DOWNLOAD FUNCTIONALITY
+        // ═════════════════════════════════════════════════════════════════════════
+
+        elements.downloadBtn.addEventListener('click', async () =&gt; {
+            if (!currentImageUrl) return;
+
+            try {
+                const response = await fetch(currentImageUrl);
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `wafi-thumbnail-${Date.now()}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Failed to download image. Please try right-clicking and saving the image manually.');
+            }
+        });
+
+        // ═════════════════════════════════════════════════════════════════════════
+        // REGENERATE FUNCTIONALITY
+        // ═════════════════════════════════════════════════════════════════════════
+
+        elements.regenerateBtn.addEventListener('click', async () =&gt; {
+            if (!lastFormData) return;
+            await generateThumbnail();
+        });
+
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
